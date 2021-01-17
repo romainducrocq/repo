@@ -1,0 +1,9 @@
+#!/bin/bash
+
+params=""
+for PARAMS in $( echo "${@}" | sed 's/ /\\ /g' )
+do
+	params="${params} ${PARAMS}"
+done
+
+/opt/anaconda3/bin/jupyter notebook --allow-root${params} &

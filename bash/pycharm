@@ -1,0 +1,9 @@
+#!/bin/bash
+
+params=""
+for PARAMS in $( echo "${@}" | sed 's/ /\\ /g' )
+do
+	params="${params} ${PARAMS}"
+done
+
+nohup /opt/pycharm-community-2020.3.2/bin/pycharm.sh${params} &> ~/nohup.out &

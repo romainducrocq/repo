@@ -1,0 +1,247 @@
+Pop!_OS  20.04 64 bits (amd 64, intel 11)
+
+live usb:
+sudo wget -O /popos.iso https://pop-iso.sfo2.cdn.digitaloceanspaces.com/20.04/amd64/intel/11/pop-os_20.04_amd64_intel_11.iso
+sudo dd if=/popos.iso of=/dev/sdb bs=4M
+disable secure boot
+
+dual boot:
+https://www.youtube.com/watch?v=CozK7sJ8UMs&t=700s
+
+grub:
+https://jacci.net/linux/pop-os/how-to-install-grub-on-pop-os-20-04/
+---------------------------------------------------------------------------------
+apt : sudo apt-get install <package-name>
+.deb : 
+	- without dependencies : sudo dpkg -i <package-name>
+	- with dependencies : sudo apt install ./<package-name>
+is a package installed ? : which <package-name>
+sudo apt-get update
+---------------------------------------------------------------------------------
+mkdir ~/Pkgs
+mkdir ~/Pkgs/bin
+gedit ~/.bashrc
+	# set PATH so it includes pkgs bin if it exists
+	if [ -d "$HOME/Pkgs/bin" ] ; then
+    		PATH="$HOME/Pkgs/bin:$PATH"
+	fi
+	
+	# set PATH so it includes pkgs bin firefox if it exists
+	if [ -d "$HOME/Pkgs/bin/firefox" ] ; then
+    		PATH="$HOME/Pkgs/bin/firefox:$PATH"
+	fi
+export PATH=$PATH:~/Pkgs/bin
+export PATH=$PATH:~/Pkgs/bin/firefox
+. ~/.bashrc
+---------------------------------------------------------------------------------
+pre installed : firefox, git, python2, gnome-disk-utility, hplip, simple-scan
+---------------------------------------------------------------------------------
+tree
+sudo apt-get install tree
+---------------------------------------------------------------------------------
+transmission-gtk
+sudo apt-get install transmission-gtk
+---------------------------------------------------------------------------------
+hplip
+sudo apt-get install hplip
+---------------------------------------------------------------------------------
+vlc
+sudo apt-get install vlc
+---------------------------------------------------------------------------------
+libreoffice
+sudo apt-get install libreoffice
+---------------------------------------------------------------------------------
+stacer
+sudo apt-get install stacer
+---------------------------------------------------------------------------------
+bleachbit
+sudo apt-get install bleachbit
+---------------------------------------------------------------------------------
+ncdu
+sudo apt-get install ncdu
+---------------------------------------------------------------------------------
+pdftk 
+sudo apt-get install pdftk
+---------------------------------------------------------------------------------
+gedit
+sudo apt-get install gedit
+---------------------------------------------------------------------------------
+kolourpaint
+sudo apt-get install kolourpaint4
+---------------------------------------------------------------------------------
+messengerfordesktop
+https://github.com/Aluxian/Messenger-for-Desktop/releases
+wget -P ~/Téléchargements https://github.com/aluxian/Messenger-for-Desktop/releases/download/v2.0.9/messengerfordesktop-2.0.9-linux-amd64.deb
+sudo apt-get install ./messengerfordesktop-2.0.9-linux-amd64.deb
+rm -rv messengerfordesktop-2.0.9-linux-amd64.deb
+
+pango
+https://unix.stackexchange.com/questions/589993/pango-error-harfbuzz-version-too-old
+
+wget -P ~/Téléchargements http://fr.archive.ubuntu.com/ubuntu/pool/main/p/pango1.0/libpango-1.0-0_1.42.4-7_amd64.deb
+wget -P ~/Téléchargements http://fr.archive.ubuntu.com/ubuntu/pool/main/p/pango1.0/libpangocairo-1.0-0_1.42.4-7_amd64.deb
+wget -P ~/Téléchargements http://fr.archive.ubuntu.com/ubuntu/pool/main/p/pango1.0/libpangoft2-1.0-0_1.42.4-7_amd64.deb
+cd ~/Téléchargements/
+mkdir libpango libpangocairo libpangoft2
+dpkg-deb -xv libpango-1.0-0_1.42.4-7_amd64.deb libpango
+dpkg-deb -xv libpangocairo-1.0-0_1.42.4-7_amd64.deb libpangocairo
+dpkg-deb -xv libpangoft2-1.0-0_1.42.4-7_amd64.deb libpangoft2
+sudo cp -rv libpango/usr/lib/x86_64-linux-gnu/* /opt/messengerfordesktop/
+sudo cp -rv libpangocairo/usr/lib/x86_64-linux-gnu/* /opt/messengerfordesktop/
+sudo cp -rv libpangoft2/usr/lib/x86_64-linux-gnu/* /opt/messengerfordesktop/
+rm -rv libpango*
+---------------------------------------------------------------------------------
+zoom
+https://zoom.us/download?os=linux (ubuntu)
+wget -P ~/Téléchargements https://zoom.us/client/latest/zoom_amd64.deb
+sudo apt-get install ./zoom_amd64.deb
+rm -rv zoom_amd64.deb
+---------------------------------------------------------------------------------
+deborphan
+sudo apt-get install deborphan
+---------------------------------------------------------------------------------
+sublime text
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+sudo apt-get install apt-transport-https
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt-get update
+sudo apt-get install sublime-text
+---------------------------------------------------------------------------------
+unetbootin
+
+wget -P ~/Téléchargements http://ftp.fr.debian.org/debian/pool/main/g/glibc/multiarch-support_2.19-18+deb8u10_amd64.deb
+wget -P ~/Téléchargements https://mirrors.mediatemple.net/debian-archive/debian/pool/main/libp/libpng/libpng12-0_1.2.49-1%2Bdeb7u2_amd64.deb
+sudo dpkg -i multiarch-support_2.19-18+deb8u10_amd64.deb
+sudo dpkg -i libpng12-0_1.2.49-1+deb7u2_amd64.deb
+rm -rv multiarch-support_2.19-18+deb8u10_amd64.deb libpng12-0_1.2.49-1+deb7u2_amd64.deb
+mkdir ~/Pkgs/Unetbootin
+wget -P ~/Pkgs/Unetbootin https://github.com/unetbootin/unetbootin/releases/download/681/unetbootin-linux64-681.bin
+sudo chmod +x ~/Pkgs/Unetbootin/unetbootin-linux64-681.bin
+
+create bin :
+sudo touch ~/Pkgs/bin/unetbootin 
+sudo gedit ~/Pkgs/bin/unetbootin &
+	#!/bin/bash    
+	sudo ~/Pkgs/Unetbootin/unetbootin-linux64-681.bin
+sudo chmod +x ~/Pkgs/bin/unetbootin
+. ~/.bashrc
+unetbootin 
+
+sudo apt-get install mtools
+---------------------------------------------------------------------------------
+tor
+
+download tor : 
+https://www.torproject.org/download/languages/
+mkdir ~/Pkgs/Tor
+wget -P ~/Pkgs/Tor https://www.torproject.org/dist/torbrowser/9.5.3/tor-browser-linux64-9.5.3_en-US.tar.xz
+
+verify signature :
+https://support.torproject.org/tbb/how-to-verify-signature/
+wget -O ~/Pkgs/Tor/tor-browser-linux64-9.5.3_en-US.tar.xz.asc https://dist.torproject.org/torbrowser/9.5.3/tor-browser-linux64-9.5.3_en-US.tar.xz.asc
+gpg --auto-key-locate nodefault,wkd --locate-keys torbrowser@torproject.org
+gpg --output ~/Pkgs/Tor/tor.keyring --export 0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+gpgv --keyring ~/Pkgs/Tor/tor.keyring ~/Pkgs/Tor/tor-browser-linux64-9.5.3_en-US.tar.xz.asc ~/Pkgs/Tor/tor-browser-linux64-9.5.3_en-US.tar.xz
+
+extract tar.xz :
+tar -xvf ~/Pkgs/Tor/tor-browser-linux64-9.5.3_en-US.tar.xz -C ~/Pkgs/Tor
+
+create bin :
+touch ~/Pkgs/bin/tor 
+gedit ~/Pkgs/bin/tor
+	#!/bin/bash    
+	~/Pkgs/Tor/tor-browser_en-US/Browser/start-tor-browser
+chmod +x ~/Pkgs/bin/tor
+. ~/.bashrc
+tor 
+---------------------------------------------------------------------------------
+calibre
+mkdir ~/Pkgs/Calibre
+sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+---------------------------------------------------------------------------------
+mcomix
+sudo apt-get install mcomix
+---------------------------------------------------------------------------------
+python3
+download python3 XZ source release :
+https://www.python.org/downloads/release/python-385/
+wget -P ~/Téléchargements https://www.python.org/ftp/python/3.8.5/Python-3.8.5.tar.xz
+tar -xvf ~/Téléchargements/Python-3.8.5.tar.xz -C ~/Pkgs
+sudo apt-get install build-essential
+sudo apt-get install sqlite3 libsqlite3-dev
+sudo apt-get install libbz2-dev
+sudo apt-get install zlib1g-dev
+cd ~/Pkgs/Python-3.8.5/
+./configure
+make
+sudo make altinstall
+---------------------------------------------------------------------------------
+atom
+sudo apt-get install atom
+---------------------------------------------------------------------------------
+hakuneko
+wget -P ~/Téléchargements https://github.com/manga-download/hakuneko/releases/download/v6.1.7/hakuneko-desktop_6.1.7_linux_amd64.deb
+sudo apt-get install ./hakuneko-desktop_6.1.7_linux_amd64.deb
+rm -rv hakuneko-desktop_6.1.7_linux_amd64.deb
+mkdir ~/Pkgs/Hakuneko ~/Pkgs/Hakuneko/Mangas
+---------------------------------------------------------------------------------
+configure printer
+hp-setup -i <ip-adress>
+system-config-printer : set printer as default
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+other installs :
+
+sudo apt-get install neofetch
+sudo apt-get install progress
+sudo apt-get install webp
+sudo apt-get install imagemagick
+sudo apt-get install gcc
+sudo apt-get install g++
+sudo apt-get install build-essential
+sudo apt-get install sqlite3 libsqlite3-dev
+sudo apt-get install libbz2-dev
+sudo apt-get install zlib1g-dev
+
+
+Background:
+/usr/share/backgrounds/pop
+sudo gedit /usr/share/gnome-background-properties/pop-wallpapers.xml &
+
+        <name>my-wallpaper1</name>
+        <filename>/usr/share/backgrounds/pop/my-wallpaper1.jpg</filename>
+        <options>zoom</options>
+        <pcolor>#000000</pcolor>
+        <scolor>#000000</scolor>
+        <shade_type>solid</shade_type>
+    	</wallpaper>
+
+https://www.wallpaperflare.com/outrun-vaporwave-wallpaper-gjedg/
+sudo mv -v wallpaperflare.com_wallpaper.jpg /usr/share/backgrounds/pop/my-wallpaper1.jpg
+
+
+Customize:
+sudo apt-get install gnome-tweaks
+sudo apt-get install gnome-shell-extensions
+
+https://support.system76.com/articles/customize-gnome/
+
+	- Dock 
+	https://support.system76.com/articles/dash-to-dock/
+	https://extensions.gnome.org/extension/307/dash-to-dock/
+	- Window list
+	https://extensions.gnome.org/extension/602/window-list/
+	- Arc menu
+	sudo apt-get install gnome-shell-extensions gnome-menus gir1.2-gmenu-3.0
+	https://extensions.gnome.org/extension/1228/arc-menu/
+
+
+
+rm -r ~/Téléchargements/*
+sudo apt-get update
+

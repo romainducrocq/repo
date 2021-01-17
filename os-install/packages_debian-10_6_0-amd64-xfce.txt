@@ -1,0 +1,309 @@
+debian 10.6.0 amd64 xfce
+---------------------------------------------------------------------------------
+live usb:
+
+wget -O /debian.iso https://cdimage.debian.org/debian-cd/current-live/amd64/bt-hybrid/debian-live-10.6.0-amd64-xfce.iso.torrent
+dd if=debian.iso of=/dev/sdb bs=4M
+disable secure boot
+---------------------------------------------------------------------------------
+Manual partitionnig : 
+
+- [512 MB FAT32], [flags: boot, esp], [mount point: /boot/efi]
+- [150 GB ext4], [mount point: /]
+- [5096 MB linuxswap], [flags:swap] (RAM/2 + 1 GB)
+---------------------------------------------------------------------------------
+wifi: 
+
+https://tutox.fr/2018/02/16/installer-pilote-de-carte-wifi-linux/
+https://wiki.debian.org/fr/iwlwifi
+
+apt-get update
+apt-get upgrade
+lspci -nn | grep -i network
+lspci -k | grep -i network -A 2
+xdg-open /etc/apt/sources.list
+	- add: contrib non-free
+		deb http://deb.debian.org/debian buster main contrib non-free
+		deb-src http://deb.debian.org/debian buster main contrib non-free
+		...
+apt-get update
+apt-cache policy firmware-iwlwifi
+apt-get install firmware-iwlwifi
+modprobe -r iwlwifi
+modprobe iwlwifi
+---------------------------------------------------------------------------------
+grub:
+
+https://jacci.net/linux/pop-os/how-to-install-grub-on-pop-os-20-04/
+xdg-open /etc/default/grub
+	GRUB_BACKGROUND="/usr/share/images/desktop-base/my-grub-background.jpg"
+update-grub
+---------------------------------------------------------------------------------
+boot animation:
+
+https://tuxicoman.jesuislibre.net/2019/05/ecran-de-demarrage-graphique-avec-plymouth-sur-debian.html
+https://www.gnome-look.org/p/1236548/
+---------------------------------------------------------------------------------
+make xfce look awesome:
+
+https://www.youtube.com/watch?v=GR2y0xOIIdI
+settings > panel
+terminal > edit > preferences > 
+	- appearance: transparent background, opacity 0.80, default geometry 94x24
+ 	- advanced: disable all menu access keys 
+---------------------------------------------------------------------------------
+Terminal shortcut
+
+xfce4-settings-manager
+keyboard > application shortcuts > add
+exo-open --launch TerminalEmulator
+ctrl + alt + t
+---------------------------------------------------------------------------------
+mkdir /opt/bin
+gedit /home/romain/.bashrc /root/.bashrc &
+	# set PATH so it includes opt bin if it exists
+	if [ -d "/opt/bin" ] ; then
+    		PATH="/opt/bin:$PATH"
+	fi
+	
+	# set PATH so it includes opt bin firefox if it exists
+	if [ -d "/opt/bin/firefox" ] ; then
+    		PATH="/opt/bin/firefox:$PATH"
+	fi
+export PATH=$PATH:/opt/bin
+export PATH=$PATH:/opt/bin/firefox
+. /home/romain/.bashrc
+. /root/.bashrc
+---------------------------------------------------------------------------------
+set /root/.bashrc and /home/romain/.bashrc 
+apt-get install bash-doc
+touch /root/.bash_aliases
+touch /home/romain/.bash_aliases
+. /home/romain/.bashrc
+. /root/.bashrc
+---------------------------------------------------------------------------------
+apt : sudo apt-get install <package-name>
+.deb : 
+	- without dependencies : sudo dpkg -i <package-name>
+	- with dependencies : sudo apt install ./<package-name>
+is a package installed ? : which <package-name>
+sudo apt-get update
+sudo apt-get upgrade
+installed packages : sudo apt-mark showmanual | less
+---------------------------------------------------------------------------------
+pre installed : firefox, python, python3, libreoffice
+---------------------------------------------------------------------------------
+tree
+apt-get install tree
+---------------------------------------------------------------------------------
+git
+apt-get install git
+---------------------------------------------------------------------------------
+transmission
+apt-get install transmission-gtk
+---------------------------------------------------------------------------------
+vlc
+apt-get install vlc
+---------------------------------------------------------------------------------
+gnome-disks
+apt-get install gnome-disk-utility
+---------------------------------------------------------------------------------
+hp-setup
+apt-get install hplip
+
+configure printer
+hp-setup -i <ip-adress>
+system-config-printer : set printer as default
+---------------------------------------------------------------------------------
+simple-scan
+apt-get install simple-scan
+---------------------------------------------------------------------------------
+stacer
+wget -P /home/romain/Downloads https://github.com/oguzhaninan/Stacer/releases/download/v1.1.0/stacer_1.1.0_amd64.deb
+apt-get install /home/romain/Downloads/stacer_1.1.0_amd64.deb
+---------------------------------------------------------------------------------
+bleachbit
+apt-get install bleachbit
+---------------------------------------------------------------------------------
+ncdu
+apt-get install ncdu
+---------------------------------------------------------------------------------
+pdftk 
+apt-get install pdftk
+---------------------------------------------------------------------------------
+gedit
+apt-get install gedit
+---------------------------------------------------------------------------------
+kolourpaint
+apt-get install kolourpaint4
+---------------------------------------------------------------------------------
+messengerfordesktop
+https://github.com/Aluxian/Messenger-for-Desktop/releases
+wget -P /home/romain/Downloads https://github.com/aluxian/Messenger-for-Desktop/releases/download/v2.0.9/messengerfordesktop-2.0.9-linux-amd64.deb
+apt-get install /home/romain/Downloads/messengerfordesktop-2.0.9-linux-amd64.deb
+rm -rv /home/romain/Downloads/messengerfordesktop-2.0.9-linux-amd64.deb
+---------------------------------------------------------------------------------
+zoom
+https://zoom.us/download?os=linux (debian)
+wget -P /home/romain/Downloads https://zoom.us/client/latest/zoom_amd64.deb
+apt-get install /home/romain/Downloads/zoom_amd64.deb
+rm -rv /home/romain/Downloads/zoom_amd64.deb
+---------------------------------------------------------------------------------
+deborphan
+apt-get install deborphan
+---------------------------------------------------------------------------------
+sublime text
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+sudo apt-get install apt-transport-https
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt-get update
+sudo apt-get install sublime-text
+---------------------------------------------------------------------------------
+unetbootin
+
+apt-get install mtools
+wget -P /home/romain/Downloads http://ftp.fr.debian.org/debian/pool/main/g/glibc/multiarch-support_2.19-18+deb8u10_amd64.deb
+dpkg -i /home/romain/Downloads/multiarch-support_2.19-18+deb8u10_amd64.deb
+rm -rv /home/romain/Downloads/multiarch-support_2.19-18+deb8u10_amd64.deb
+mkdir /opt/Unetbootin
+wget -P /opt/Unetbootin https://github.com/unetbootin/unetbootin/releases/download/681/unetbootin-linux64-681.bin
+chmod +x /opt/Unetbootin/unetbootin-linux64-681.bin
+
+create bin:
+gedit /opt/bin/unetbootin &
+	#!/bin/bash    
+	sudo /opt/Unetbootin/unetbootin-linux64-681.bin
+chmod +x /opt/bin/unetbootin
+. /root/.bashrc
+. /home/romain/.bashrc
+unetbootin
+---------------------------------------------------------------------------------
+tor
+
+download tor: 
+https://www.torproject.org/download/languages/
+mkdir /opt/Tor
+wget -P /opt/Tor https://www.torproject.org/dist/torbrowser/10.0.8/tor-browser-linux64-10.0.8_en-US.tar.xz
+
+verify signature:
+https://support.torproject.org/tbb/how-to-verify-signature/
+wget -O /opt/Tor/tor-browser-linux64-10.0.8_en-US.tar.xz.asc https://dist.torproject.org/torbrowser/10.0.8/tor-browser-linux64-10.0.8_en-US.tar.xz.asc
+gpg --auto-key-locate nodefault,wkd --locate-keys torbrowser@torproject.org
+gpg --output /opt/Tor/tor.keyring --export 0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+gpgv --keyring /opt/Tor/tor.keyring /opt/Tor/tor-browser-linux64-10.0.8_en-US.tar.xz.asc /opt/Tor/tor-browser-linux64-10.0.8_en-US.tar.xz
+
+extract tar.xz:
+tar -xvf /opt/Tor/tor-browser-linux64-10.0.8_en-US.tar.xz -C /opt/Tor
+
+chown -R romain /opt/Tor/tor-browser_en-US
+
+create bin:
+gedit /opt/bin/tor &
+	#!/bin/bash    
+	sudo -u romain /opt/Tor/tor-browser_en-US/Browser/start-tor-browser
+chmod +x /opt/bin/tor
+. /root/.bashrc
+. /home/romain/.bashrc
+
+tor 
+---------------------------------------------------------------------------------
+calibre
+sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+mkdir /opt/calibre/Library
+---------------------------------------------------------------------------------
+mcomix
+apt-get install mcomix
+---------------------------------------------------------------------------------
+python3
+download python3 XZ source release :
+https://www.python.org/downloads/release/python-390/
+wget -P /home/romain/Downloads https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tar.xz
+tar -xvf /home/romain/Downloads/Python-3.9.1.tar.xz -C /opt
+apt-get install build-essential
+apt-get install sqlite3 libsqlite3-dev
+apt-get install libbz2-dev
+apt-get install zlib1g-dev
+cd /opt/Python-3.9.1/
+./configure
+make
+make altinstall
+---------------------------------------------------------------------------------
+atom 
+wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
+sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+apt-get update
+apt-get install atom
+---------------------------------------------------------------------------------
+hakuneko
+wget -P /home/romain/Downloads https://github.com/manga-download/hakuneko/releases/download/v6.1.7/hakuneko-desktop_6.1.7_linux_amd64.deb
+apt-get install /home/romain/Downloads/hakuneko-desktop_6.1.7_linux_amd64.deb
+rm -rv /home/romain/Downloads/hakuneko-desktop_6.1.7_linux_amd64.deb
+mkdir /opt/Hakuneko
+---------------------------------------------------------------------------------
+tmux
+apt-get install tmux
+touch /etc/tmux.conf
+---------------------------------------------------------------------------------
+keepnote
+wget -P /home/romain/Downloads/ http://keepnote.org/download-test/keepnote-0.7.9.tar.gz
+tar -xvf /home/romain/Downloads/keepnote-0.7.9.tar.gz -C /opt/
+cd /opt/keepnote-0.7.9
+cat /opt/keepnote-0.7.9/INSTALL
+apt-get install python python-gtk2 python-glade2 libgtk2.0-dev
+---------------------------------------------------------------------------------
+shutter
+apt-get update
+apt-get install snapd
+systemctl enable --now snapd apparmor
+reboot
+gedit /home/romain/.bashrc /root/.bashrc &
+	# set PATH so it includes snap bin if it exists
+	if [ -d "/snap/bin" ] ; then
+		PATH="/snap/bin:$PATH"
+	fi
+
+export PATH=$PATH:/snap/bin
+. /home/romain/.bashrc
+. /root/.bashrc
+(Test snap:)
+(snap install hello-world)
+(hello-world)
+snap install shutter
+reboot
+---------------------------------------------------------------------------------
+virtualbox
+
+wget -P /home/romain/Downloads https://download.virtualbox.org/virtualbox/6.1.16/virtualbox-6.1_6.1.16-140961~Debian~buster_amd64.deb
+wget -P /home/romain/Downloads https://download.virtualbox.org/virtualbox/6.1.16/Oracle_VM_VirtualBox_Extension_Pack-6.1.16.vbox-extpack
+dpkg -i /home/romain/Downloads/virtualbox-6.1_6.1.16-140961~Debian~buster_amd64.deb
+vboxmanage extpack install /home/romain/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.1.16.vbox-extpack
+rm -rv /home/romain/Downloads/virtualbox-6.1_6.1.16-140961~Debian~buster_amd64.deb /home/romain/Downloads/Oracle_VM_VirtualBox_Extension_Pack-6.1.16.vbox-extpack
+---------------------------------------------------------------------------------
+
+
+
+other installs :
+
+apt-get install neofetch
+apt-get install progress
+apt-get install webp
+apt-get install imagemagick
+apt-get install gcc
+apt-get install g++
+apt-get install locate && updatedb
+apt-get install net-tools
+apt-get install xclip
+
+
+
+Background:
+/usr/share/images/desktop-base/my-background.jpg
+
+rm -r /home/romain/Downloads/*
+
+. /home/romain/.bashrc && . /root/.bashrc
+
+sudo apt-get update
+sudo apt-get upgrade
+
+

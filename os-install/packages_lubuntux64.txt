@@ -1,0 +1,195 @@
+64bits systems : x64
+lubuntu last x64 release : 20.04 lts
+know if 32bits or 64bits : uname -m
+---------------------------------------------------------------------------------
+apt : sudo apt-get install <package-name>
+.deb : 
+	- without dependencies : sudo dpkg -i <package-name>
+	- with dependencies : sudo apt install ./<package-name>
+is a package installed ? : which <package-name>
+sudo apt-get update
+---------------------------------------------------------------------------------
+mkdir ~/Pkgs
+mkdir ~/Pkgs/bin
+gedit ~/.profile
+	# set PATH so it includes pkgs bin if it exists
+	if [ -d "$HOME/Pkgs/bin" ] ; then
+    		PATH="$HOME/Pkgs/bin:$PATH"
+	fi
+export PATH=$PATH:~/Pkgs/bin
+. ~/.profile
+---------------------------------------------------------------------------------
+pre installed : firefox, tree, git, transmission, vlc, libreoffice, hplip
+---------------------------------------------------------------------------------
+stacer
+sudo apt-get install stacer
+---------------------------------------------------------------------------------
+bleachbit
+sudo apt-get install bleachbit
+---------------------------------------------------------------------------------
+ncdu
+
+Requires (.deb) :
+- libncursesw5 (>= 6)
+- libtinfo5 (>= 6)
+(same version !)
+
+http://archive.ubuntu.com/ubuntu/pool/universe/n/ncurses/
+sudo dpkg -i <package-name libncursesw5>
+sudo dpkg -i <package-name libtinfo5>
+
+sudo apt-get install ncdu
+---------------------------------------------------------------------------------
+pdftk 
+sudo apt-get install pdftk-java
+---------------------------------------------------------------------------------
+gedit
+sudo apt-get install gedit
+---------------------------------------------------------------------------------
+kolourpaint
+sudo apt-get install kolourpaint4
+---------------------------------------------------------------------------------
+messengerfordesktop
+(messengerfordesktop not yet available on ubuntu 2004)
+
+download caprine : 
+https://github.com/sindresorhus/caprine/releases/
+sudo apt install ./<package-name caprine>
+---------------------------------------------------------------------------------
+zoom
+https://zoom.us/download?os=linux
+sudo apt install ./<package-name zoom>
+---------------------------------------------------------------------------------
+deborphan
+sudo apt-get install deborphan
+
+gtkorphan
+(not yet available on ubuntu 2004)
+---------------------------------------------------------------------------------
+gnome-disk-utility
+sudo apt-get install gnome-disk-utility
+---------------------------------------------------------------------------------
+simple-scan
+sudo apt-get install simple-scan
+---------------------------------------------------------------------------------
+sublime text
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+sudo apt-get install apt-transport-https
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt-get update
+sudo apt-get install sublime-text
+---------------------------------------------------------------------------------
+unetbootin
+(not yet available on ubuntu 2004)
+download 64-bit binary : 
+https://unetbootin.github.io/linux_download.html
+mkdir ~/Pkgs/Unetbootin
+mv ~/Téléchargements/unetbootin-linux64-677.bin ~/Pkgs/Unetbootin
+chmod +x ~/Pkgs/Unetbootin/unetbootin-linux64-677.bin
+
+create bin :
+touch ~/Pkgs/bin/unetbootin 
+gedit ~/Pkgs/bin/unetbootin
+	#!/bin/bash    
+	sudo ~/Pkgs/Unetbootin/unetbootin-linux64-677.bin
+chmod +x ~/Pkgs/bin/unetbootin
+. ~/.profile
+unetbootin
+---------------------------------------------------------------------------------
+tor
+
+download tor : 
+https://www.torproject.org/download/
+mkdir ~/Pkgs/Tor
+mv ~/Téléchargements/tor-browser-linux64-9.0.9_en-US.tar.xz ~/Pkgs/Tor
+
+verify signature :
+https://support.torproject.org/tbb/how-to-verify-signature/
+touch ~/Pkgs/Tor/tor-browser-linux64-9.0.9_en-US.tar.xz.asc
+gedit ~/Pkgs/Tor/tor-browser-linux64-9.0.9_en-US.tar.xz.asc
+copy signature from download page to .asc
+gpg --auto-key-locate nodefault,wkd --locate-keys torbrowser@torproject.org
+gpg --output ~/Pkgs/Tor/tor.keyring --export 0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+gpgv --keyring ~/Pkgs/Tor/tor.keyring ~/Pkgs/Tor/tor-browser-linux64-9.0.9_en-US.tar.xz.asc ~/Pkgs/Tor/tor-browser-linux64-9.0.9_en-US.tar.xz
+
+extract tar.xz :
+tar -xvf ~/Pkgs/Tor/tor-browser-linux64-9.0.9_en-US.tar.xz -C ~/Pkgs/Tor
+
+create bin :
+touch ~/Pkgs/bin/tor 
+gedit ~/Pkgs/bin/tor
+	#!/bin/bash    
+	~/Pkgs/Tor/tor-browser_en-US/Browser/start-tor-browser
+chmod +x ~/Pkgs/bin/tor
+. ~/.profile
+tor 
+---------------------------------------------------------------------------------
+calibre
+mkdir ~/Pkgs/Calibre
+sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+---------------------------------------------------------------------------------
+mcomix
+sudo apt-get install mcomix
+---------------------------------------------------------------------------------
+python3
+download python3 XZ source release :
+https://www.python.org/downloads/release/python-382/
+tar -xvf ~/Téléchargements/Python-3.8.2.tar.xz -C ~/Pkgs
+sudo apt-get install build-essential
+sudo apt-get install sqlite3 libsqlite3-dev
+sudo apt-get install libbz2-dev
+sudo apt-get install zlib1g-dev
+cd ~/Pkgs/Python-3.8.2/
+./configure
+make
+sudo make altinstall
+---------------------------------------------------------------------------------
+python2
+download python2 XZ source release :
+https://www.python.org/downloads/release/python-2718/
+tar -xvf ~/Téléchargements/Python-2.7.18.tar.xz -C ~/Pkgs
+cd ~/Pkgs/Python-2.7.18/
+./configure
+make
+sudo make altinstall
+---------------------------------------------------------------------------------
+configure printer
+hp-setup -i <ip-adress>
+system-config-printer : set printer as default
+---------------------------------------------------------------------------------
+
+
+rm -r ~/Téléchargements/*
+sudo apt-get update
+
+
+to find exec by .desktop : 
+grep '^Exec' filename.desktop | tail -1 | sed 's/^Exec=//' | sed 's/%.//' | sed 's/^"//g' | sed 's/" *$//g' &
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
